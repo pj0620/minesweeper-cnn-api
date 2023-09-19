@@ -1,16 +1,17 @@
 from flask import Flask, request, jsonify
 import json
 
-from controller.impl.rcnn_recs_controller import CnnV1RecsController
+from controller.impl.rcnn_recs_controller import RCNNRecsController
 from converter.recs_input_output_converter import convert_ext_request_to_recs_request
 from model.recs_request import RecsRequest
 from model.recs_response import RecsResponse
+from utils.serialization import enhanced_json_serializer
 from validator.recs_input_output_validator import validate_recs_request
 from validator.validation_exception import ValidationException
 
 app = Flask(__name__)
 
-recs_controller = CnnV1RecsController()
+recs_controller = RCNNRecsController()
 
 
 @app.route("/recommendations", methods=['POST'])
@@ -27,7 +28,7 @@ def hello_world():
         # apply converter to get output
         recs_response: RecsResponse = recs_controller.predict_cells(recs_request)
 
-        return json.dumps(recs_response), 200
+        return json.dumps(recs_response, default=enhanced_json_serializer), 200
 
     except ValidationException as e:
         print(f'found request to be invalid: {e}')
