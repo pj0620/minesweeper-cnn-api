@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import json
+from flask_cors import CORS
 
 from controller.impl.rcnn_recs_controller import RCNNRecsController
 from converter.recs_input_output_converter import convert_ext_request_to_recs_request
@@ -10,6 +11,7 @@ from validator.recs_input_output_validator import validate_recs_request
 from validator.validation_exception import ValidationException
 
 app = Flask(__name__)
+CORS(app, supports_credentials=True)  # This will disable CORS for all routes
 
 recs_controller = RCNNRecsController()
 
