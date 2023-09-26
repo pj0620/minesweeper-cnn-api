@@ -11,7 +11,7 @@ from utils.board_utils import base64_to_flat_arr, expand_cell_bytes
 
 class RCNNRecsController(RecsController):
     def __init__(self):
-        model_file = 'data_model/ten_by_ten_rcnn.h5'
+        model_file = 'data_model/ten_by_ten_rcnn_v15.0.h5'
 
         # Load the saved model from the file
         self.model = load_model(model_file)
@@ -45,15 +45,11 @@ class RCNNRecsController(RecsController):
             # outOfBoard << 5 | isKnown << 4 | val = 00BKVVVV
             # id converted to
             # [outOfBoard, isKnown, val]
-            board_decoded = expand_cell_bytes(board_decoded)
+            board_decoded = expand_cell_bytes(board_decoded, request.guess_size)
             print(f'decoded cell values: {board_decoded}')
 
             # convert to numpy array
             board_decoded = np.array(board_decoded)
-
-            # reshape to correct size
-            guess_size = request.guess_size
-            board_decoded = board_decoded.reshape((guess_size, guess_size, 3))
             print(f'final board shape: {board_decoded.shape}')
 
             board_sections.append(board_decoded)

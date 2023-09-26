@@ -16,8 +16,13 @@ CORS(app, supports_credentials=True)  # This will disable CORS for all routes
 recs_controller = RCNNRecsController()
 
 
+@app.route("/", methods=['GET'])
+def ping():
+    return 'healthy'
+
+
 @app.route("/recommendations", methods=['POST'])
-def hello_world():
+def minesweeper_recs():
     body_input = json.loads(request.data)
     print(f'received new cell recommendation request: {body_input}')
     try:

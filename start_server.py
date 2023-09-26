@@ -28,7 +28,7 @@ def start_server():
     # Set environment variables
     print("Setting FLASK_ENV to development...")
     os.environ["FLASK_ENV"] = "development"
-    os.environ["FLASK_APP"] = "app.py"
+    os.environ["FLASK_APP"] = "main.py"
 
     # Define the FLASK variable
     FLASK = "./venv/bin/flask"
